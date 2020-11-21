@@ -1,2 +1,1 @@
-# VrahProxyStar
-Ein Framework das Proxylisten aus dynamischen URL,-Listen einsammelt, testet, filtert und als sortierte Proxyliste nach IP-Ranges, Länder. Speed und Latenz zurückgibt.abliefert.
+A small framework that collects proxylists from dynamic URL-lists, tests them, filters them and returns them as a sorted proxy list according to IP ranges, location, speed and latency.
