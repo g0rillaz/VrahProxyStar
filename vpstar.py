@@ -7,12 +7,18 @@
 from sys import argv
 import urllib3
 from os import system as terminal
+
+import os
 import requests
 from colorama import Fore,Style
+
+
 
 URL = "http://google.com"
 CMD_CLEAR_TERM = "clear"
 TIMEOUT = (3.06, 28)
+
+
 
 def check_proxy(proxy):
     '''
@@ -23,9 +29,18 @@ def check_proxy(proxy):
         session = requests.Session()
         session.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36'
         session.max_redirects = 300
-        proxy = proxy.split('\n',1)[0]
-        print(Fore.LIGHTYELLOW_EX + 'Prüfe ' + proxy)
-        session.get(URL, proxies={'http':'http://' + proxy}, timeout=TIMEOUT,allow_redirects=True)
+        proxyy = ""
+        if "\n" in proxy:
+            proxyy = proxy.split('\n',1)[0]
+            print("Kontroll-Text: Das befindet sich im String ", proxy)
+        else:
+            proxyy = proxy
+
+        print(Fore.LIGHTYELLOW_EX + 'Prüfe ' + proxyy)
+        session.get(URL, proxies={'http':'http://' + proxyy}, timeout=TIMEOUT,allow_redirects=True)
+
+
+
     except requests.exceptions.ConnectionError as error:
         print(Fore.LIGHTRED_EX + 'Error!')
         return error
@@ -71,7 +86,7 @@ if len(argv) > 1:
                         if check_proxy(proxy):
                             print(Fore.LIGHTRED_EX + 'schlechter Proxy ' + proxy)
                         else:
-                            print(Fore.LIGHTGREEN_EX + 'gute Proxy ' + proxy)
+                            print(Fore.LIGHTGREEN_EX + 'good Proxy ' + proxy)
                             file_with_goods = open('good.txt','a')
                             file_with_goods.write(proxy)
                             goods += 1
@@ -87,6 +102,8 @@ if len(argv) > 1:
                 print(Fore.LIGHTRED_EX + 'Error!\nFile Not found!')
             except IndexError:
                 print(Fore.LIGHTRED_EX + 'Error!\nMissing filename!')
+
+
         elif argv[1] in ('-p','--proxy','-proxy'):
             try:
                 argv[2] = argv[2].split(' ')[0]
